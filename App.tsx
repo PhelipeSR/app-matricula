@@ -1,35 +1,27 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { SafeAreaView, StyleSheet, View, Text, Image, Button } from 'react-native';
-import AppIntroSlider from 'react-native-app-intro-slider';
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
-import Navigation from './navigation';
-import Intro from './screens/intro';
+import Routes from './navigation';
+import { AuthProvider } from './contexts/auth';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
-  const [showRealApp, setShowRealApp] = useState(false);
 
+  if (!isLoadingComplete) {return null}
 
-
-  if (!isLoadingComplete) {
-    return null;
-  } else {
-    return (
-      <>
-        {showRealApp ? (
-            <SafeAreaProvider>
-              <Navigation colorScheme={colorScheme} />
-              <StatusBar />
-            </SafeAreaProvider>
-        ) : (
-          <Intro showRealAppFunc={setShowRealApp} />
-        )}
-      </>
-    );
-  }
+  return (
+    <AuthProvider>
+      <SafeAreaProvider>
+        <NavigationContainer theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <Routes />
+        </NavigationContainer>
+        <StatusBar />
+      </SafeAreaProvider>
+    </AuthProvider>
+  );
 }

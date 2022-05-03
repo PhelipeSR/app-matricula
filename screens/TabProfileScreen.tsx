@@ -1,15 +1,21 @@
-import { StyleSheet } from 'react-native';
+import { useContext } from 'react';
+import { StyleSheet, Button } from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
+
 import { Text, View } from '../components/Themed';
+import authContext from '../contexts/auth';
 import { RootTabScreenProps } from '../types';
 
-export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
+export default function TabProfileScreen({ navigation }: RootTabScreenProps<'TabRegistration'>) {
+  const { SignOut } = useContext(authContext);
+
+  function hendleSignOut() {
+    SignOut()
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
+      <Button title='Sair' onPress={hendleSignOut}>oi</Button>
     </View>
   );
 }

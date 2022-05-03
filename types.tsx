@@ -3,9 +3,11 @@
  * https://reactnavigation.org/docs/typescript/
  */
 
+import * as React from 'react';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 declare global {
   namespace ReactNavigation {
@@ -17,6 +19,7 @@ export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
   Modal: undefined;
   NotFound: undefined;
+  SignIn: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
@@ -25,11 +28,18 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> = Nati
 >;
 
 export type RootTabParamList = {
-  TabOne: undefined;
-  TabTwo: undefined;
+  TabRegistration: undefined;
+  TabOfferList: undefined;
+  TabHistoric: undefined;
+  TabProfile: undefined;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
   BottomTabScreenProps<RootTabParamList, Screen>,
   NativeStackScreenProps<RootStackParamList>
 >;
+
+export type TabBarIconProps = {
+  name: React.ComponentProps<typeof Ionicons>['name'];
+  color: string;
+}

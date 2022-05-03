@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, Image, Button } from 'react-native';
+import React from 'react';
+import { StyleSheet, View, Text } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -35,21 +35,21 @@ export default function Intro({ showRealAppFunc }: Props) {
       key: 's1',
       text: 'Complete seu pedido de ajuste da matrícula',
       title: 'Matrícula',
-      backgroundColor: '#98c000',
+      backgroundColor: '#0059B3',
       icon: 'book',
     },
     {
       key: 's2',
       title: 'Lista de Oferta',
       text: 'Veja todas as matérias ofestadas no semestre',
-      backgroundColor: '#0068b4',
+      backgroundColor: '#00B359',
       icon: 'search',
     },
     {
       key: 's3',
       title: 'Histórico',
       text: 'Visualize o histórico de processamento',
-      backgroundColor: '#00a0a7',
+      backgroundColor: '#48BEF0',
       icon: 'calendar-outline',
     },
   ];
