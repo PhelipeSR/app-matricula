@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { FetchSignIn } from '../services/auth';
+import { FetchSignIn, IUserResponse } from '../services/auth';
 
 interface IAuthProvider {
   children: JSX.Element;
@@ -13,7 +13,7 @@ interface ISignIn {
 
 interface IAuthContextData {
   signed: boolean;
-  user: object | undefined;
+  user: IUserResponse | undefined;
   SignIn(user: string, password: string): Promise<ISignIn>;
   SignOut(): void;
 }
@@ -21,7 +21,7 @@ interface IAuthContextData {
 const authContext = createContext<IAuthContextData>({} as IAuthContextData);
 
 export function AuthProvider({ children }: IAuthProvider) {
-  const [user, setUser] = useState<object | undefined>(undefined)
+  const [user, setUser] = useState<IUserResponse | undefined>(undefined)
 
   useEffect(() => {
     async function loadStorageData() {

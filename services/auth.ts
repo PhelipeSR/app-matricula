@@ -1,10 +1,12 @@
+export interface IUserResponse {
+  name: string;
+  email: string;
+  matricula: string;
+}
+
 interface IResponse {
   token?: string;
-  user?: {
-    name: string;
-    email: string;
-    matricula: string;
-  };
+  user?: IUserResponse;
   error?: boolean;
   msg?: string;
 }
@@ -26,8 +28,8 @@ export function FetchSignIn(user: string, password: string): Promise<IResponse> 
       resolve({
         token: 'asdfasdfasdfasdf',
         user: {
-          name: 'Test User',
-          email: '123456789@aluno.unb.com',
+          name: 'Phelipe Sousa Resende',
+          email: '160141818@aluno.unb.com',
           matricula: '123456789',
         }
       })

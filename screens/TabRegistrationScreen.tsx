@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, View, ScrollView, TouchableHighlight, } from 'react-native';
-import { ActivityIndicator, Title, Avatar, Button, Card, Paragraph } from 'react-native-paper';
+import { ActivityIndicator, Card, Paragraph } from 'react-native-paper';
 
 import { FetchRegistration, IResponse } from '../services/registration';
 
@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
   },
   card: {
     marginVertical: 5,
-    borderStyle: 'solid',
-    borderColor: 'black',
-    borderWidth: 1,
+    // borderStyle: 'solid',
+    // borderBottomColor: 'black',
+    // borderWidth: 1,
   }
 });
