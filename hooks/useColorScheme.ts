@@ -1,8 +1,27 @@
-import { ColorSchemeName, useColorScheme as _useColorScheme } from 'react-native';
+import { useColorScheme as _useColorScheme } from 'react-native';
+import { DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme } from '@react-navigation/native';
+import { DarkTheme as PaperDarkTheme, DefaultTheme as PaperDefaultTheme } from 'react-native-paper';
+import merge from 'deepmerge';
 
-// The useColorScheme value is always either light or dark, but the built-in
-// type suggests that it can be null. This will not happen in practice, so this
-// makes it a bit easier to work with.
-export default function useColorScheme(): NonNullable<ColorSchemeName> {
-  return _useColorScheme() as NonNullable<ColorSchemeName>;
+
+export default function useColorScheme() {
+  const CombinedDefaultTheme = merge(PaperDefaultTheme, NavigationDefaultTheme);
+  const CombinedDarkTheme = merge(PaperDarkTheme, NavigationDarkTheme);
+  const colorScheme = _useColorScheme();
+
+  const darkTheme = {
+    ...CombinedDarkTheme,
+    colors: {
+      ...CombinedDarkTheme.colors,
+    },
+  };
+
+  const lightTheme = {
+    ...CombinedDefaultTheme,
+    colors: {
+      ...CombinedDefaultTheme.colors,
+    },
+  };
+
+  return colorScheme == 'dark' ? darkTheme : lightTheme;
 }

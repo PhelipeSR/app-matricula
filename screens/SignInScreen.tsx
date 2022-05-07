@@ -48,38 +48,38 @@ export default function SignInScreen() {
   }
 
   return (
-    <ImageBackground style={{flex: 1, justifyContent: 'center'}} source={require('../assets/images/background.png')} resizeMode="cover">
-      <View style={styles.container}>
-        <Snackbar wrapperStyle={{marginHorizontal:20}} style={{marginHorizontal:0, backgroundColor: '#dc3545'}} visible={visible} onDismiss={onDismissSnackBar} duration={3000}>
-          {errorSignIn}
-        </Snackbar>
-        <View style={{ alignItems: 'center', height: 220}}>
-          <Image resizeMode='center' style={{paddingVertical: 100, paddingHorizontal: 10, height: 'auto'}} source={require('../assets/images/logo.png')} />
-        </View>
-        <TextInput
-          mode="outlined"
-          label="Matrícula"
-          value={user}
-          onChangeText={handleUserChangeText}
-          style={styles.input}
-          left={<TextInput.Icon name="account" />}
-        />
-        <HelperText type="error" visible={errorUser}>Matrícula inválida</HelperText>
-
-        <TextInput
-          mode="outlined"
-          label="Senha"
-          value={password}
-          onChangeText={handlePasswordChangeText}
-          secureTextEntry
-          style={styles.input}
-          left={<TextInput.Icon name="eye" />}
-        />
-        <HelperText type="error" visible={errorPassword}>Senha inválida</HelperText>
-
-        <Button style={styles.button} loading={loading} disabled={loading} mode='contained' onPress={handleSignIn}>Entrar</Button>
+    <View style={styles.container}>
+      <Snackbar wrapperStyle={{marginHorizontal:20}} style={{marginHorizontal:0, backgroundColor: '#dc3545'}} visible={visible} onDismiss={onDismissSnackBar} duration={3000}>
+        {errorSignIn}
+      </Snackbar>
+      <View style={{ alignItems: 'center', height: 220}}>
+        <Image resizeMode='center' style={{paddingVertical: 100, paddingHorizontal: 10, height: 'auto'}} source={require('../assets/images/logo.png')} />
       </View>
-    </ImageBackground>
+      <TextInput
+        mode="outlined"
+        label="Matrícula"
+        value={user}
+        onChangeText={handleUserChangeText}
+        autoComplete="username"
+        style={styles.input}
+        left={<TextInput.Icon name="account" />}
+      />
+      <HelperText onPressIn onPressOut type="error" visible={errorUser}>Matrícula inválida</HelperText>
+
+      <TextInput
+        mode="outlined"
+        label="Senha"
+        value={password}
+        onChangeText={handlePasswordChangeText}
+        secureTextEntry
+        autoComplete={"current-password"}
+        style={styles.input}
+        left={<TextInput.Icon name="eye" />}
+      />
+      <HelperText onPressIn onPressOut type="error" visible={errorPassword}>Senha inválida</HelperText>
+
+      <Button style={styles.button} loading={loading} disabled={loading} mode='contained' onPress={handleSignIn}>Entrar</Button>
+    </View>
   );
 }
 

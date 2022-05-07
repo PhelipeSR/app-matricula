@@ -2,9 +2,8 @@ import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Pressable } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useTheme } from 'react-native-paper';
 
-import Colors from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
 import TabRegistrationScreen from '../screens/TabRegistrationScreen';
 import TabHistoricScreen from '../screens/TabHistoricScreen';
 import TabOfferListScreen from '../screens/TabOfferListScreen';
@@ -15,14 +14,10 @@ import { RootTabParamList, RootTabScreenProps, TabBarIconProps } from '../types'
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 export default function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
+  const { colors } = useTheme();
 
   return (
-    <BottomTab.Navigator
-      initialRouteName="TabRegistration"
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
-      }}>
+    <BottomTab.Navigator initialRouteName="TabRegistration">
       <BottomTab.Screen
         name="TabRegistration"
         component={TabRegistrationScreen}
@@ -38,7 +33,7 @@ export default function BottomTabNavigator() {
               <Ionicons 
                 name="information-circle"
                 size={25}
-                color={Colors[colorScheme].text}
+                color={colors.text}
                 style={{ marginRight: 15 }}
               />
             </Pressable>

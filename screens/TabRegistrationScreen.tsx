@@ -1,16 +1,60 @@
-import { StyleSheet } from 'react-native';
+import { useEffect, useState } from 'react';
+import { StyleSheet, View, ScrollView, TouchableHighlight, } from 'react-native';
+import { ActivityIndicator, Title, Avatar, Button, Card, Paragraph } from 'react-native-paper';
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
-import { RootTabScreenProps } from '../types';
+import { FetchRegistration, IResponse } from '../services/registration';
 
-export default function TabRegistrationScreen({ navigation }: RootTabScreenProps<'TabRegistration'>) {
+
+export default function TabRegistrationScreen() {
+  const [registrations, setRegistrations] = useState<Array<IResponse>>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    async function loadRegistrationData() {
+      setIsLoading(true);
+      const response = await FetchRegistration();
+      setRegistrations(response);
+      setIsLoading(false);
+    }
+    loadRegistrationData();
+  }, [])
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabRegistrationScreen.tsx" />
-    </View>
+    <ScrollView>
+      {
+        isLoading ? (
+          <View style={{justifyContent: 'center', flex: 1}}>
+            <ActivityIndicator animating={true} />
+          </View>
+        ) : (
+          registrations.map((registration) => {
+            return (
+              <TouchableHighlight
+                key={registration.turma.disciplina.codigo}
+                activeOpacity={0.6}
+                underlayColor="#DDDDDD"
+                onPress={() => alert('Pressed!')}
+                style={{marginHorizontal: 5}}
+              >
+                <Card style={styles.card}>
+                  <Card.Title title={registration.turma.disciplina.nome} subtitle={registration.turma.disciplina.codigo} />
+                  <Card.Content>
+                    <View style={{flexDirection: 'row'}}>
+                      <Paragraph style={{fontWeight: 'bold', marginRight: 2}}>Turma:</Paragraph>
+                      <Paragraph>{registration.turma.codigo}</Paragraph>
+                    </View>
+                    <View style={{flexDirection: 'row'}}>
+                      <Paragraph style={{fontWeight: 'bold', marginRight: 2}}>Status:</Paragraph>
+                      <Paragraph>{registration.status}</Paragraph>
+                    </View>
+                  </Card.Content>
+                </Card>
+              </TouchableHighlight>
+            )
+          })
+        )
+      }
+    </ScrollView>
   );
 }
 
@@ -18,7 +62,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    color: 'red',
   },
   title: {
     fontSize: 20,
@@ -29,4 +73,10 @@ const styles = StyleSheet.create({
     height: 1,
     width: '80%',
   },
+  card: {
+    marginVertical: 5,
+    borderStyle: 'solid',
+    borderColor: 'black',
+    borderWidth: 1,
+  }
 });

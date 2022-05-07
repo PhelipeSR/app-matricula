@@ -1,8 +1,6 @@
 import { useContext } from 'react';
-import { StyleSheet, Button } from 'react-native';
+import { StyleSheet, Button, View } from 'react-native';
 
-
-import { Text, View } from '../components/Themed';
 import authContext from '../contexts/auth';
 import { RootTabScreenProps } from '../types';
 
