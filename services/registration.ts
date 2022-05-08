@@ -1,4 +1,4 @@
-export interface IResponse {
+export interface IRegistrationResponse {
   status: string;
   turma: {
     codigo: string;
@@ -20,7 +20,7 @@ export interface IResponse {
 }
 
 
-export function FetchRegistration(): Promise<Array<IResponse>> {
+export function FetchRegistration(): Promise<Array<IRegistrationResponse>> {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve([

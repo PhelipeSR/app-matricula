@@ -1,4 +1,4 @@
-export interface IResponse {
+export interface IHistoricResponse {
   status: string;
   dataHora: string;
   turma: {
@@ -13,7 +13,7 @@ export interface IResponse {
 }
 
 
-export function FetchHistoric(): Promise<Array<IResponse>> {
+export function FetchHistoric(): Promise<Array<IHistoricResponse>> {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve([

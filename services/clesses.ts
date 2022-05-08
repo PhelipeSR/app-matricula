@@ -897,7 +897,7 @@ const classes = [
   },    
 ] as Array<IClassesResponse>;
 
-function search(codigo: string): Array<IClassesResponse> {
+function searchClasses(codigo: string): Array<IClassesResponse> {
   const filtered: Array<IClassesResponse> = classes.filter((_class) => {
     if (_class.disciplina.codigo.toLowerCase() === codigo.toLowerCase()) {
       return _class;
@@ -909,9 +909,34 @@ function search(codigo: string): Array<IClassesResponse> {
   return filtered;
 }
 
+function searchClass(codigo: string, turma: string): IClassesResponse {
+  const filtered: Array<IClassesResponse> = classes.filter((_class) => {
+    if (
+      _class.disciplina.codigo.toLowerCase() === codigo.toLowerCase() &&
+      _class.codigo.toLowerCase() === turma.toLowerCase()
+    ) {
+      return _class;
+    }
+    
+    return false;
+  });
+
+  return filtered[0];
+}
+
+
+export function getClassInfo(codigo: string, turma: string): Promise<IClassesResponse> {
+  const _class = searchClass(codigo, turma);
+
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(_class);
+    }, 500);
+  }
+)}
 
 export function getClasses(codigo: string): Promise<Array<IClassesResponse>> {
-  const classesFiltered = search(codigo);
+  const classesFiltered = searchClasses(codigo);
   
 
   return new Promise(resolve => {

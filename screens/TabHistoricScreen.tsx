@@ -1,28 +1,18 @@
-import { useEffect, useState } from 'react';
 import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
 import { ActivityIndicator, Card, Paragraph } from 'react-native-paper';
+import { useHistoric } from '../contexts/historic';
+import "intl";
 
-import { FetchHistoric, IResponse } from '../services/historic';
+import "intl/locale-data/jsonp/pt-BR";
 
 
 export default function TabRegistrationScreen() {
-  const [historics, setHistorics] = useState<Array<IResponse>>([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    async function loadRegistrationData() {
-      setIsLoading(true);
-      const response = await FetchHistoric();
-      setHistorics(response);
-      setIsLoading(false);
-    }
-    loadRegistrationData();
-  }, [])
+  const { historics, isHistoricLoading } = useHistoric();
 
   return (
     <ScrollView>
       {
-        isLoading ? (
+        isHistoricLoading ? (
           <View style={{justifyContent: 'center', flex: 1}}>
             <ActivityIndicator animating={true} />
           </View>
@@ -30,7 +20,7 @@ export default function TabRegistrationScreen() {
           historics.map((historic) => {
             return (
               <TouchableOpacity
-                key={historic.turma.disciplina.codigo}
+                key={`${historic.turma.disciplina.codigo}-${historic.status}`}
                 activeOpacity={0.6}
                 onPress={() => alert('Pressed!')}
               >
@@ -44,6 +34,13 @@ export default function TabRegistrationScreen() {
                     <View style={{flexDirection: 'row'}}>
                       <Paragraph style={{fontWeight: 'bold', marginRight: 2}}>Status:</Paragraph>
                       <Paragraph>{historic.status}</Paragraph>
+                    </View>
+                    <View style={{flexDirection: 'row'}}>
+                      <Paragraph style={{fontWeight: 'bold', marginRight: 2}}>Data:</Paragraph>
+                      <Paragraph>{new Intl.DateTimeFormat('pt-BR', {
+                        dateStyle: 'long',
+                        timeStyle: 'long'
+                      }).format(new Date(historic.dataHora)) }</Paragraph>
                     </View>
                   </Card.Content>
                 </Card>

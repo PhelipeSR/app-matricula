@@ -1,6 +1,20 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
-import { Modal, Portal, useTheme, Title, Button, Divider, ActivityIndicator, Card, Paragraph, Searchbar } from 'react-native-paper';
+import { 
+  Modal,
+  Portal,
+  useTheme,
+  Title,
+  Button,
+  Divider,
+  ActivityIndicator,
+  Card,
+  Paragraph,
+  Searchbar,
+  Dialog,
+  TextInput,
+} from 'react-native-paper';
+import { useRegistration } from '../contexts/registration';
 import { getClasses, IClassesResponse } from '../services/clesses';
 
 import { getOfferList, IResponse } from '../services/offerList';
@@ -13,13 +27,14 @@ export default function TabOfferListScreen() {
   const [isLoadingClasses, setIsLoadingClasses] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [classes, setClasses] = useState<Array<IClassesResponse>>([]);
+  const [visibleDialog, setVisibleDialog] = useState(false);
+  const [priority, setPriority] = useState('');
+  const [turma, setTurma] = useState('');
+  const { registrations, setRegistrations } = useRegistration();
 
-  useEffect(() => {
-    async function loadRegistrationData() {
-      
-    }
-    loadRegistrationData();
-  }, [])
+  function showDialog() {
+    setVisibleDialog(true)
+  }
 
   async function onChangeSearch(query: string) {
     setSearchQuery(query);
@@ -33,8 +48,6 @@ export default function TabOfferListScreen() {
     }
   }
 
-  
-
   async function getOfferInfo(codigo: string) {
     setModalVisible(true);
     setIsLoadingClasses(true);
@@ -45,9 +58,33 @@ export default function TabOfferListScreen() {
 
   function hideModal() {
     setModalVisible(false);
-  };
+  }
 
+  function hendleAddClass(codigo: string) {
+    setTurma(codigo);
+    setPriority('');
+    showDialog();
+  }
 
+  function addClass() {
+    var _class = classes.filter(obj => {
+      return obj.codigo === turma
+    });
+
+    if (_class.length > 0) {
+      setRegistrations([...registrations, {
+        "status": '',
+        "turma": {
+          "codigo": _class[0].codigo,
+          "disciplina": _class[0].disciplina,
+          "horarios": _class[0].horarios,
+          "professores": _class[0].professores,
+        }
+      }]);
+    }
+    setVisibleDialog(false);
+    setModalVisible(false);
+  }
 
   return (
     <>
@@ -98,10 +135,11 @@ export default function TabOfferListScreen() {
         <Modal visible={modalVisible} onDismiss={hideModal} contentContainerStyle={{
           backgroundColor: colors.background,
           flex: 1,
-          // alignItems: 'flex-start',
           justifyContent: 'flex-start',
         }}>
-          <Button icon="arrow-left" mode='text' onPress={() => hideModal()} style={styles.modalButton}>Voltar</Button>
+          <View style={{backgroundColor: colors.background}}>
+            <Button icon="arrow-left" mode='text' color={colors.text} onPress={() => hideModal()} style={styles.modalButton}>Voltar</Button>
+          </View>
           <Divider />
             <ScrollView>
             {
@@ -111,7 +149,6 @@ export default function TabOfferListScreen() {
                 </View>
               ) : (
                 classes.map((_class, index) => {
-                  {console.log(index)}
                   return (
                     <>
                       {index === 0 && (
@@ -120,7 +157,7 @@ export default function TabOfferListScreen() {
                       <TouchableOpacity
                         key={`${_class.codigo}-${_class.disciplina.codigo}`}
                         activeOpacity={0.6}
-                        // onPress={() => getOfferInfo(_class.codigo)}
+                        onPress={() => hendleAddClass(_class.codigo)}
                       >
                         <Card style={styles.card} >
                           <Card.Title title={`Turma ${_class.codigo}`} titleNumberOfLines={2}/>
@@ -159,6 +196,30 @@ export default function TabOfferListScreen() {
           </ScrollView>
         </Modal>
       </Portal>
+
+      <View>
+        <Portal>
+          <Dialog visible={visibleDialog} onDismiss={() => setVisibleDialog(false)}>
+            <Dialog.Title>Adicionar Turma</Dialog.Title>
+            <Dialog.Content>
+              <Paragraph>Confirme a inclusão desta turma no seu pedido de matrícula</Paragraph>
+              <TextInput
+                style={{marginTop: 16}}
+                label="Prioridade"
+                value={priority}
+                onChangeText={text => setPriority(text)}
+                autoComplete={false}
+                keyboardType="numeric"
+                mode='outlined'
+              />
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button style={{marginRight: 16}} onPress={() => setVisibleDialog(false)}>Cancelar</Button>
+              <Button mode='contained' onPress={addClass}>Confirmar</Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
+      </View>
     </>
   );
 }
@@ -184,6 +245,6 @@ const styles = StyleSheet.create({
 
   modalButton: {
     alignSelf: 'flex-start',
-    paddingTop: 20,
+    paddingVertical: 10,
   }
 });

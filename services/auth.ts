@@ -46,8 +46,6 @@ export function FetchSignIn(registration: string, password: string): Promise<IRe
     return student.matricula == registration;
   });
 
-  console.log(users)
-
   if (!users.length) {
     return new Promise(resolve => {
       setTimeout(() => {

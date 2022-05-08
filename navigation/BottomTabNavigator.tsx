@@ -24,20 +24,6 @@ export default function BottomTabNavigator() {
         options={({ navigation }: RootTabScreenProps<'TabRegistration'>) => ({
           title: 'Matrícula',
           tabBarIcon: ({ color }) => <TabBarIcon name="book" color={color} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate('Modal')}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-              <Ionicons 
-                name="information-circle"
-                size={25}
-                color={colors.text}
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
-          ),
         })}
       />
       <BottomTab.Screen
