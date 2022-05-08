@@ -17,17 +17,26 @@ export default function TabProfileScreen() {
       <View style={styles.info}>
         <View style={styles.wrapper}>
           <Avatar.Icon size={24} icon="account-arrow-right" />
-          <Text style={styles.text}>{user?.name}</Text>
+          <View>
+            <Text style={styles.text}>Nome:</Text>
+            <Text style={styles.subtext}>{user?.name}</Text>
+          </View>
         </View>
         <Divider style={styles.separator} />
         <View style={styles.wrapper}>
         <Avatar.Icon size={24} icon="email" />
-          <Text style={styles.text}>{user?.email}</Text>
+          <View>
+            <Text style={styles.text}>E-mail:</Text>
+            <Text style={styles.subtext}>{user?.email}</Text>
+          </View>
         </View>
         <Divider style={styles.separator} />
         <View style={styles.wrapper}>
           <Avatar.Icon size={24} icon="information" />
-          <Text style={styles.text}>{user?.matricula}</Text>
+          <View>
+            <Text style={styles.text}>Matrícula:</Text>
+            <Text style={styles.subtext}>{user?.matricula}</Text>
+          </View>
         </View>
       </View>
       <Button mode='contained' style={styles.button} onPress={hendleSignOut}>Sair</Button>
@@ -42,6 +51,7 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   button: {
     marginTop: 'auto',
@@ -56,7 +66,12 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 18,
+    fontWeight: 'bold',
     marginLeft: 8,
+  },
+  subtext: {
+    marginLeft: 8,
+    fontSize: 16,
   },
   separator: {
     marginVertical: 10,

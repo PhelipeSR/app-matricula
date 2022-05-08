@@ -11,8 +11,44 @@ interface IResponse {
   msg?: string;
 }
 
-export function FetchSignIn(user: string, password: string): Promise<IResponse> {
-  if (user !== '123456789' || password !== '123') {
+const students = [{
+    "matricula" : "180012345",
+    "nome" : "DANIEL AKIRA ANDO"
+  }, {
+    "matricula" : "180032435",
+    "nome" : "VICTOR HUGO DE SOUSA"
+  }, {
+    "matricula" : "180049548",
+    "nome" : "RAYAN JHONNYE ALVES ALEXANDRINO"
+  }, {
+    "matricula" : "180039283",
+    "nome" : "JADE MARTINS ARANTES"
+  }, {
+    "matricula" : "180059459",
+    "nome" : "ALINE DOS SANTOS PEREIRA"
+  }, {
+    "matricula" : "190003434",
+    "nome" : "VINICIUS ALVES DE OLIVEIRA"
+  }, {
+    "matricula" : "190002912",
+    "nome" : "MAIRA LEITE CONCEICAO"
+  }, {
+    "matricula" : "190003939",
+    "nome" : "VICTOR NUNES GOMES"
+  }, {
+    "matricula" : "190029293",
+    "nome" : "VITOR DE AGUIAR CARAZZA"
+  }
+];
+
+export function FetchSignIn(registration: string, password: string): Promise<IResponse> {
+  const users = students.filter(student => {
+    return student.matricula == registration;
+  });
+
+  console.log(users)
+
+  if (!users.length) {
     return new Promise(resolve => {
       setTimeout(() => {
         resolve({
@@ -28,9 +64,9 @@ export function FetchSignIn(user: string, password: string): Promise<IResponse> 
       resolve({
         token: 'asdfasdfasdfasdf',
         user: {
-          name: 'Phelipe Sousa Resende',
-          email: '160141818@aluno.unb.com',
-          matricula: '123456789',
+          name: users[0].nome,
+          email: `${users[0].matricula}@aluno.unb.com`,
+          matricula: users[0].matricula,
         }
       })
     }, 2000);

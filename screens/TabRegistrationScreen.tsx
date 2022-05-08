@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, View, ScrollView, TouchableHighlight, } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
 import { ActivityIndicator, Card, Paragraph } from 'react-native-paper';
 
 import { FetchRegistration, IResponse } from '../services/registration';
@@ -29,12 +29,10 @@ export default function TabRegistrationScreen() {
         ) : (
           registrations.map((registration) => {
             return (
-              <TouchableHighlight
+              <TouchableOpacity
                 key={registration.turma.disciplina.codigo}
                 activeOpacity={0.6}
-                underlayColor="#DDDDDD"
                 onPress={() => alert('Pressed!')}
-                style={{marginHorizontal: 5}}
               >
                 <Card style={styles.card}>
                   <Card.Title title={registration.turma.disciplina.nome} subtitle={registration.turma.disciplina.codigo} />
@@ -49,7 +47,7 @@ export default function TabRegistrationScreen() {
                     </View>
                   </Card.Content>
                 </Card>
-              </TouchableHighlight>
+              </TouchableOpacity>
             )
           })
         )
@@ -63,6 +61,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     color: 'red',
+    marginHorizontal: 5,
   },
   title: {
     fontSize: 20,
