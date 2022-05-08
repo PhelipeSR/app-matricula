@@ -22,9 +22,10 @@ Instale o [Expo Go para IOS](https://apps.apple.com/br/app/expo-go/id982107779)
   git clone https://github.com/PhelipeSR/app-matricula.git
 ```
 
-### `Instale dependências`
+### `Instale as dependências`
 
 ```
+  npm i -g expo-cli
   npm install
 ```
 
@@ -33,4 +34,5 @@ Após instalar as dependências rode o script start
 ```
   npm run start
 ```
-Abra o App do Expo Go e leia o QRCode que aparece no terminal.
+Abra o App do Expo Go e leia o QRCode que aparece no terminal.\
+Para fazer login no APP basta usar a matrícula 180059459 com qualquer senha.
